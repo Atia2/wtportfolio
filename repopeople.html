@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User List</title>
+	<style type="text/css">
+		.btn{
+			background: #fff;
+			border: 1px solid rgb(0,0,0,.2);
+			border-radius: 5px;
+			padding-left: 20px;
+			padding-right: 20px;
+			margin-left: 20px;
+			cursor: pointer;
+		}
+		.user_info{
+			background: rgb(0,0,0,.1);
+			padding: 20px;
+			margin: 10px;
+			width: 70%;
+			display: inline-flex;
+		}
+		
+		.user_li{
+		  font-weight: bolder;
+		  font-size: 30px;
+		  line-height: 35px;
+		}
+	</style>
+</head>
+<body>
+		
+	<button onclick="loadData()" class="btn">Load Github Users</button>
+	<h1 style="margin-left: 20px;">Github Users</h1>
+	<div id="peopledata"></div>
+
+	<script>
+		function loadData(){
+			var xhttp=new XMLHttpRequest();
+			xhttp.onreadystatechange=function(){
+			if(this.readyState==4 && this.status==200){
+				var people = JSON.parse(this.responseText)
+				var output= ' ';
+				 for(var i in people){
+				 output +=
+				 '<div class="user_info">' +
+					 '<img src="'+people[i].avatar_url+'" width="150px" height="150px">' +
+					 '<ul>' +
+						 '<li>ID: '+people[i].id+'</li>' +
+						 '<li>Login: '+people[i].login+'</li>' +
+						 '<li>Repos:'+people[i].repos_url+'</li>'+
+						 '<li>Starred URL:'+people[i].starred_url+'</li>'+
+						 '<li>Events Url:'+people[i].events_url+'</li>'+
+					 '</ul>'+
+				 '</div><br>';
+
+
+				}
+				document.getElementById("peopledata").innerHTML=output;}
+			};
+			xhttp.open('GET','https://api.github.com/users',true);
+			xhttp.send();
+		}
+	</script>
+</body>
+</html>
